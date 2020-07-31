@@ -1,5 +1,6 @@
 import 'package:covid_dashboard/src/blocs/states_bloc.dart';
 import 'package:covid_dashboard/src/models/item_model.dart';
+import 'package:covid_dashboard/src/ui/state_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -24,8 +25,7 @@ class StateListState extends State<StateList> {
   }
 
   Future<void> checkPermission() async {
-    bool checkMediaPermission =
-        await Permission.mediaLibrary.request().isGranted;
+    bool checkMediaPermission = await Permission.storage.request().isGranted;
     if (checkMediaPermission) {}
   }
 
@@ -56,7 +56,6 @@ class StateListState extends State<StateList> {
         itemBuilder: (BuildContext context, int index) {
           return Container(
             margin: EdgeInsets.only(bottom: 20.0),
-            padding: EdgeInsets.all(15.0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(25.0),
@@ -68,42 +67,69 @@ class StateListState extends State<StateList> {
                 ),
               ],
             ),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  snapshot.data.states[index].state,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.aBeeZee(
-                      fontWeight: FontWeight.w600, fontSize: 15.0),
+            child: Material(
+              borderRadius: BorderRadius.circular(25.0),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(25.0),
+                onTap: () => openDetailPage(snapshot.data, index),
+                child: Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        snapshot.data.states[index].state,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.aBeeZee(
+                            fontWeight: FontWeight.w600, fontSize: 15.0),
+                      ),
+                      SizedBox(height: 2.0),
+                      GridView(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, childAspectRatio: 15 / 4),
+                        children: <Widget>[
+                          CardSummary(
+                              data: totalCase(
+                                  snapshot.data.states[index], 'Confirmed'),
+                              caseType: 'Confirmed'),
+                          CardSummary(
+                              data: totalCase(
+                                  snapshot.data.states[index], 'Active'),
+                              caseType: 'Active'),
+                          CardSummary(
+                              data: totalCase(
+                                  snapshot.data.states[index], 'Recovered'),
+                              caseType: 'Recovered'),
+                          CardSummary(
+                              data: totalCase(
+                                  snapshot.data.states[index], 'Deceased'),
+                              caseType: 'Deceased'),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-                SizedBox(height: 2.0),
-                GridView(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, childAspectRatio: 15 / 4),
-                  children: <Widget>[
-                    CardSummary(
-                        data:
-                            totalCase(snapshot.data.states[index], 'Confirmed'),
-                        caseType: 'Confirmed'),
-                    CardSummary(
-                        data: totalCase(snapshot.data.states[index], 'Active'),
-                        caseType: 'Active'),
-                    CardSummary(
-                        data:
-                            totalCase(snapshot.data.states[index], 'Recovered'),
-                        caseType: 'Recovered'),
-                    CardSummary(
-                        data:
-                            totalCase(snapshot.data.states[index], 'Deceased'),
-                        caseType: 'Deceased'),
-                  ],
-                )
-              ],
+              ),
             ),
           );
         });
+  }
+
+  openDetailPage(ItemModel data, int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return StateDetail(
+          state: data.states[index].state,
+          confirmed: totalCase(data.states[index], 'Confirmed'),
+          active: totalCase(data.states[index], 'Active'),
+          recovered: totalCase(data.states[index], 'Recovered'),
+          deceased: totalCase(data.states[index], 'Deceased'),
+          districts: data.states[index].districts,
+        );
+      }),
+    );
   }
 
   // Calculating total cases for each type for each state
