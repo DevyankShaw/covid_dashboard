@@ -1,5 +1,5 @@
-import 'package:covid_dashboard/src/blocs/states_bloc.dart';
-import 'package:covid_dashboard/src/models/item_model.dart';
+import 'package:covid_dashboard/src/blocs/state_bloc.dart';
+import 'package:covid_dashboard/src/models/district_wise_state_model.dart';
 import 'package:covid_dashboard/src/ui/state_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,7 +37,7 @@ class StateListState extends State<StateList> {
       ),
       body: StreamBuilder(
         stream: bloc.allStates,
-        builder: (context, AsyncSnapshot<ItemModel> snapshot) {
+        builder: (context, AsyncSnapshot<DistrictWiseStateModel> snapshot) {
           if (snapshot.hasData) {
             return buildList(snapshot);
           } else if (snapshot.hasError) {
@@ -49,7 +49,7 @@ class StateListState extends State<StateList> {
     );
   }
 
-  Widget buildList(AsyncSnapshot<ItemModel> snapshot) {
+  Widget buildList(AsyncSnapshot<DistrictWiseStateModel> snapshot) {
     return ListView.builder(
         padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
         itemCount: snapshot.data.states.length,
@@ -116,12 +116,13 @@ class StateListState extends State<StateList> {
         });
   }
 
-  openDetailPage(ItemModel data, int index) {
+  openDetailPage(DistrictWiseStateModel data, int index) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) {
         return StateDetail(
           state: data.states[index].state,
+          stateCode: data.states[index].stateCode,
           confirmed: totalCase(data.states[index], 'Confirmed'),
           active: totalCase(data.states[index], 'Active'),
           recovered: totalCase(data.states[index], 'Recovered'),

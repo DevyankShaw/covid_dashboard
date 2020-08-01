@@ -1,8 +1,8 @@
-class ItemModel {
+class DistrictWiseStateModel {
   List<States> _states = [];
 
   //Parsing json response to get state name, state code and districts of each states and store them in states list
-  ItemModel.fromJson(Map<String, dynamic> parsedJson) {
+  DistrictWiseStateModel.fromJSON(Map<String, dynamic> parsedJson) {
     List<States> temp = [];
     parsedJson.forEach((key, value) {
       String _state = key;
