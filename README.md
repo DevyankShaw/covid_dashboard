@@ -1,16 +1,24 @@
-# covid_dashboard
+# Covid Dashboard
 
-A new Flutter application.
+Displaying the covid-19 data using the following API for major states across India.
 
-## Getting Started
+### API Used
+https://api.covid19india.org/
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+<img src="https://user-images.githubusercontent.com/47057254/89103829-653a6300-d432-11ea-9a3d-8e401b178d6d.jpeg" 
+width="200" height="380">
+<img src="https://user-images.githubusercontent.com/47057254/89103832-67042680-d432-11ea-872a-f5b5ad798a8b.jpeg" 
+width="200" height="380">
+<img src="https://user-images.githubusercontent.com/47057254/89103830-65d2f980-d432-11ea-96c9-a624aa95dbfd.jpeg" 
+width="200" height="380">
+<img src="https://user-images.githubusercontent.com/47057254/89103831-666b9000-d432-11ea-8409-c11f737961b2.jpeg" 
+width="200" height="380">
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+## Demo Video
+
+![ezgif com-video-to-gif](https://user-images.githubusercontent.com/47057254/89103824-623f7280-d432-11ea-9a67-c58e716bfd7e.gif)
